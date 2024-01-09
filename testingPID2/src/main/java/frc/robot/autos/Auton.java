@@ -16,16 +16,12 @@ import frc.robot.subsystems.*;
 
 public final class Auton {
     private final Swerve s_Swerve;
-    private final Arm s_Arm;
-    private final Claw s_Claw;
 
     private final HashMap<String, Command> eventMap;
     SendableChooser<Command> autonChooser;
     private final SwerveAutoBuilder autonBuilder;
-    public Auton(Swerve s_Swerve, Arm s_Arm, Claw s_Claw){
+    public Auton(Swerve s_Swerve){
         this.s_Swerve = s_Swerve;
-        this.s_Arm = s_Arm;
-        this.s_Claw = s_Claw;
         eventMap = new HashMap<>();
         setMarkers();
         autonBuilder = new SwerveAutoBuilder(
@@ -49,29 +45,12 @@ public final class Auton {
     }
     private void setMarkers(){
         eventMap.put("Wait", new WaitCommand(1));
-        eventMap.put("Score Mid", s_Arm.moveTo(Constants.Swerve.arm.MIDGOAL[0], Constants.Swerve.arm.MIDGOAL[1]).withTimeout(2)
-                                            .andThen(s_Claw.Outtake().withTimeout(3))
-                                            .andThen(s_Claw.Stop().withTimeout(0.1))
-                                            /* .andThen(s_Arm.moveTo(Constants.Swerve.arm.RETRACTED[0], Constants.Swerve.arm.RETRACTED[1]).withTimeout(2)*/);
-        eventMap.put("Retract",s_Arm.moveTo(Constants.Swerve.arm.RETRACTED[0], Constants.Swerve.arm.RETRACTED[1]).withTimeout(2));
-        eventMap.put("Score High", s_Arm.moveTo(Constants.Swerve.arm.HIGHGOAL[0], Constants.Swerve.arm.HIGHGOAL[1]).withTimeout(2)
-                                            .andThen(s_Claw.Outtake().withTimeout(3))
-                                            .andThen(s_Claw.Stop().withTimeout(0.1))
-                                            /* .andThen(s_Arm.moveTo(Constants.Swerve.arm.RETRACTED[0], Constants.Swerve.arm.RETRACTED[1]).withTimeout(2)*/);
-       /*  eventMap.put("Score High", s_Arm.moveTo(Constants.Swerve.arm.HIGHGOAL[0], Constants.Swerve.arm.HIGHGOAL[1]).withTimeout(2)
-                                            .andThen(s_Claw.Outtake().withTimeout(1))
-                                            .andThen(s_Claw.Stop().withTimeout(0.1))
-                                            .andThen(s_Arm.moveTo(Constants.Swerve.arm.RETRACTED[0], Constants.Swerve.arm.RETRACTED[1])));*/
-        eventMap.put("Intake Position", s_Arm.moveTo(Constants.Swerve.arm.INTAKE[0], Constants.Swerve.arm.INTAKE[1]).withTimeout(2));
-        eventMap.put("Intake Activate", s_Claw.Intake().withTimeout(3));
-        eventMap.put("Retract", s_Arm.moveTo(Constants.Swerve.arm.RETRACTED[0], Constants.Swerve.arm.RETRACTED[1]));
-        eventMap.put("Eject", s_Claw.Outtake().withTimeout(1));
     }
     public Command getSelected(){
         return autonChooser.getSelected();
     }
     public Command scoreOne(){
-        return s_Arm.moveTo(Constants.Swerve.arm.INTAKE[0], Constants.Swerve.arm.INTAKE[1]).withTimeout(2).andThen(s_Claw.Outtake().withTimeout(2)).andThen(s_Claw.Stop().withTimeout(0.1)).andThen(s_Arm.moveTo(Constants.Swerve.arm.RETRACTED[0], Constants.Swerve.arm.RETRACTED[1]).withTimeout(2));
+        return null;
     }
     public Command score1Mobility(){
         return autonBuilder.fullAuto(PathPlanner.loadPath("Score1Mobility", Constants.AutoConstants.constraints));
