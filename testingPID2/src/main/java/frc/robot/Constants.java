@@ -6,8 +6,7 @@ package frc.robot;
 import com.pathplanner.lib.PathConstraints;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -59,20 +58,6 @@ public final class Constants {
         /* Swerve Current Limiting */
         public static final int angleContinuousCurrentLimit = 20;
         public static final int driveContinuousCurrentLimit = 80;
-        /* TODO Arm Motor PID Values */
-        public static final double sarmKS = 1;
-        public static final double sarmKG = 1.0;
-        public static final double sarmKV = 1.95;
-        public static final double sarmKA = 0.06;
-        public static final double sarmKP = 5;
-        public static final double sarmKI = 0;
-        public static final double sarmKD = 1;
-        public static final double sarmKFF = 0;
-
-        public static final double jarmKP = 0.01;
-        public static final double jarmKI = 0.005;
-        public static final double jarmKD = 0.0025;
-        public static final double jarmKFF = 0;
 
         /* TODO tune Angle Motor PID Values */
         public static final double angleKP = 0.005;
@@ -153,6 +138,28 @@ public final class Constants {
         public static final SwerveModuleConstants constants =
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
+
+        public static final class flywheel {
+
+            public static final class FWtop {
+                public static final int FWid = 69;
+                public static final double kP = 0.69;
+                public static final double kI = 0.69;
+                public static final double kD = 0.69;
+            }
+
+            public static final class FWbott {
+                public static final int FWid = 69;
+                public static final double kP = 0.69;
+                public static final double kI = 0.69;
+                public static final double kD = 0.69;
+            }
+
+            public static final double AMP = 0.69;
+            public static final double SPEAKER = 0.69;
+
+        }
+
         public static final class arm {
 
             public static final class Shoulder {
