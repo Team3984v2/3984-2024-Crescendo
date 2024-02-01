@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -69,7 +70,7 @@ public class Swerve extends SubsystemBase {
     
     try {
       layout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
-    } catch(IOException e) {
+    } catch(UncheckedIOException e) {
       System.out.println("April Tag Field Layout not Found");
     }
     field = new Field2d();

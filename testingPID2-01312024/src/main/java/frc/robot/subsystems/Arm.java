@@ -6,11 +6,11 @@ import org.opencv.core.Mat;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.SparkMaxRelativeEncoder;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.SparkRelativeEncoder;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,7 +27,7 @@ public class Arm extends SubsystemBase{
     private CANSparkMax shoulderMotor, jointMotor; 
     private RelativeEncoder EncoderShoulder, EncoderJoint;
     private ArmFeedforward ShoulderFF, JointFF;
-    private SparkMaxPIDController ShoulderPID, JointPID;
+    private SparkPIDController ShoulderPID, JointPID;
 
 
     public Arm() {
@@ -62,7 +62,7 @@ public class Arm extends SubsystemBase{
 
         // Initialize the built in shoulder encoder
         EncoderShoulder = shoulderMotor.getEncoder(
-            SparkMaxRelativeEncoder.Type.kHallSensor, 
+            SparkRelativeEncoder.Type.kHallSensor, 
             42
         );
         // Set Conversion factor for Encoder -> degrees
@@ -78,7 +78,7 @@ public class Arm extends SubsystemBase{
 
         // Initialize the built in joint encoder
         EncoderJoint = jointMotor.getEncoder(
-            SparkMaxRelativeEncoder.Type.kHallSensor, 
+            SparkRelativeEncoder.Type.kHallSensor, 
             42
         );
         // Set Conversion factor for Encoder -> degrees

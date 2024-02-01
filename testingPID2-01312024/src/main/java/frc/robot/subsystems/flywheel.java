@@ -1,48 +1,49 @@
 package frc.robot.subsystems;
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-
-import org.opencv.core.Mat;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkRelativeEncoder;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.Swerve.arm;
-import frc.robot.Constants.Swerve.arm.Shoulder;
-import frc.robot.Constants.Swerve.flywheel.FWtop;
-
 
 public class flywheel extends SubsystemBase{
     private CANSparkMax top;
     private CANSparkMax bott;
     private RelativeEncoder topEncoder;
     private RelativeEncoder bottEncoder;
-    private SparkMaxPIDController FWtopPID;
-    private SparkMaxPIDController FWbottPID;
+    private SparkPIDController FWtopPID;
+    private SparkPIDController FWbottPID;
     public flywheel() {
         // initialies all the variables and constants 
         top = new CANSparkMax(frc.robot.Constants.Swerve.flywheel.FWtop.FWid, MotorType.kBrushless );
         bott = new CANSparkMax(frc.robot.Constants.Swerve.flywheel.FWbott.FWid, MotorType.kBrushless );
+        top.restoreFactoryDefaults();
+        bott.restoreFactoryDefaults();
+        top.setIdleMode(IdleMode.kCoast);
+        bott.setIdleMode(IdleMode.kCoast);
         topEncoder = top.getEncoder(
-            SparkMaxRelativeEncoder.Type.kHallSensor, 
+            SparkRelativeEncoder.Type.kHallSensor, 
             42
         );
+        topEncoder.setVelocityConversionFactor(
+            (Math.PI * Constants.Swerve.flywheel.FWDiameter * 0.0254 / Constants.Swerve.flywheel.FWtop.gearRatio) / 60.0 
+        );
+        topEncoder.setPosition(0);
         bottEncoder = bott.getEncoder(
-            SparkMaxRelativeEncoder.Type.kHallSensor, 
+            SparkRelativeEncoder.Type.kHallSensor, 
             42
         );
+        bottEncoder.setVelocityConversionFactor(
+            (Math.PI * Constants.Swerve.flywheel.FWDiameter * 0.0254 / Constants.Swerve.flywheel.FWbott.gearRatio) / 60.0
+        );
+        bottEncoder.setPosition(0);
         
         FWtopPID = top.getPIDController();
         FWtopPID.setP(Constants.Swerve.flywheel.FWtop.kP);
@@ -53,6 +54,8 @@ public class flywheel extends SubsystemBase{
         FWbottPID.setP(Constants.Swerve.flywheel.FWbott.kP);
         FWbottPID.setI(Constants.Swerve.flywheel.FWbott.kI);
         FWbottPID.setD(Constants.Swerve.flywheel.FWbott.kD);
+        top.burnFlash();
+        bott.burnFlash();
     }
 
     public double[] getVelocity(){
@@ -69,36 +72,31 @@ public class flywheel extends SubsystemBase{
         };
         return error;
     }
-    public void GoTo(Rotation2d ShoulderGoal, Rotation2d JointGoal){
+    public void GoTo(double topGoal, double bottGoal){
         FWtopPID.setReference(
-            ShoulderGoal.getDegrees(), 
+            topGoal, 
             ControlType.kPosition, 0
-            /*ShoulderFF.calculate(ShoulderGoal.getRadians() 
-            /* subtract angle offset from horizontal position later *,
-             0)*/
         );
         FWbottPID.setReference(
-            JointGoal.getDegrees(), 
+            bottGoal, 
             ControlType.kPosition, 0
-            /*ShoulderFF.calculate(ShoulderGoal.getRadians() 
-            /* subtract angle offset from horizontal position later *,
-             0)*/
         );
     }
 
-    public Command moveTo(double Sangle, double Jangle){
-        Rotation2d[] a = new Rotation2d[]{Rotation2d.fromDegrees(Sangle)/*(49.26)/*getAngles(x, y)[0]*/, Rotation2d.fromDegrees(Jangle)};/*(61.97)};// getAngles(x, y)[1]};*/
+    public Command moveTo(double vtop, double vbott){
+        double[] v  =new double[]{vtop, vbott};
+        //Rotation2d[] a = new Rotation2d[]{Rotation2d.fromDegrees(Sangle)/*(49.26)/*getAngles(x, y)[0]*/, Rotation2d.fromDegrees(Jangle)};/*(61.97)};// getAngles(x, y)[1]};*/
         return runOnce(()->{
-            SmartDashboard.putNumber("Shoulder Goal", a[0].getDegrees());
-            SmartDashboard.putNumber("Joint Goal", a[1].getDegrees());
+            SmartDashboard.putNumber("Shoulder Goal", v[0]);
+            SmartDashboard.putNumber("Joint Goal", v[1]);
         }).andThen(run(
             () -> GoTo(
-                a[0], a[1]
+                v[0], v[1]
             )
         ).until(
             ()->(
-                Math.abs(getErrors(a)[0].getDegrees()) < 1 
-                && Math.abs(getErrors(a)[1].getDegrees()) < 1
+                Math.abs(getErrors(v)[0]) < Constants.Swerve.flywheel.tolerance 
+                && Math.abs(getErrors(v)[1]) < Constants.Swerve.flywheel.tolerance
             ))
         );
     }

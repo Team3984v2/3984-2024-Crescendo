@@ -2,9 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
-
-import com.pathplanner.lib.PathConstraints;
-import com.revrobotics.CANSparkMax.IdleMode;
+import com.pathplanner.lib.path.PathConstraints;
+//import com.pathplanner.lib.PathConstraints;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -140,12 +140,14 @@ public final class Constants {
         }
 
         public static final class flywheel {
-
+            public static final double FWDiameter = 4.0; //Inches
+            public static final double tolerance = 1.0; //Meters per second
             public static final class FWtop {
                 public static final int FWid = 69;
                 public static final double kP = 0.69;
                 public static final double kI = 0.69;
                 public static final double kD = 0.69;
+                public static final double gearRatio = 1.0; //TODO
             }
 
             public static final class FWbott {
@@ -153,6 +155,7 @@ public final class Constants {
                 public static final double kP = 0.69;
                 public static final double kI = 0.69;
                 public static final double kD = 0.69;
+                public static final double gearRatio = 1.0; //TODO
             }
 
             public static final double AMP = 0.69;
@@ -223,7 +226,7 @@ public final class Constants {
         public static final Translation2d GOALRIGHT = new Translation2d(1, -1);
         public static final Translation2d GOALLEFT = new Translation2d(1, 1);
         public static final Translation2d GOALMIDDLE = new Translation2d(1, 0);
-        public static final PathConstraints constraints = new PathConstraints(kMaxAngularSpeedRadiansPerSecond, kMaxAccelerationMetersPerSecondSquared);
+        public static final PathConstraints constraints = new PathConstraints(kMaxAngularSpeedRadiansPerSecond, kMaxAccelerationMetersPerSecondSquared, 1, 1);//TODO change
         // Constraint for the motion profilied robot angle controller
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
