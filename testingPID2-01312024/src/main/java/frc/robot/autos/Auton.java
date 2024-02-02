@@ -4,6 +4,9 @@ import java.util.HashMap;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,11 +20,26 @@ public final class Auton {
 
     private final HashMap<String, Command> eventMap;
     SendableChooser<Command> autonChooser;
+    private final AutoBuilder autonBuilder2;
     private final SwerveAutoBuilder autonBuilder;
     public Auton(Swerve s_Swerve){
         this.s_Swerve = s_Swerve;
         eventMap = new HashMap<>();
         setMarkers();
+        autonBuilder2 = new AutoBuilder();
+        autonBuilder2.configureHolonomic(
+            s_Swerve::getPose,
+            s_Swerve::resetOdometry,
+            s_Swerve::setModuleStates, 
+            null, 
+            //new HolonomicPathFollowerConfig(0, 0, null)
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(Constants.AutoConstants.kPXController, 0, 0),
+                new PIDConstants(Constants.AutoConstants.kPThetaController, 0, 0),
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                ), 
+            true, 
+            s_Swerve);
         autonBuilder = new SwerveAutoBuilder(
             s_Swerve::getPose, 
             s_Swerve::resetOdometry, 
