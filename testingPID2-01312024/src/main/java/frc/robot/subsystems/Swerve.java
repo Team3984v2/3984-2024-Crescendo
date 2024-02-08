@@ -174,6 +174,10 @@ public class Swerve extends SubsystemBase {
     }
     return positions;
   }
+  public ChassisSpeeds getSpeeds(){
+
+    return Constants.Swerve.swerveKinematics.toChassisSpeeds(getStates());
+  }
 
   public void zeroGyro() {
     //FIXME ?

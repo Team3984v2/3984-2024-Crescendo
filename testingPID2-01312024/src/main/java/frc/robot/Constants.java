@@ -36,6 +36,10 @@ public final class Constants {
 
         /* Drivetrain COnstants */
         public static final double trackWidth = Units.inchesToMeters(21.73);
+        public static final Translation2d f1ModuleOffset = new Translation2d(trackWidth/2, trackWidth/2);
+        public static final Translation2d f2ModuleOffset = new Translation2d(trackWidth/2, -trackWidth/2);
+        public static final Translation2d b1ModuleOffset = new Translation2d(-trackWidth/2, trackWidth/2);
+        public static final Translation2d b2ModuleOffset = new Translation2d(-trackWidth/2, -trackWidth/2);
         public static final double wheelBase = Units.inchesToMeters(21.73);
         public static final double wheelDiameter = Units.inchesToMeters(4.0);
         public static final double wheelCircumference = wheelDiameter*Math.PI;
