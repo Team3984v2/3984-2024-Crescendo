@@ -164,6 +164,10 @@ public final class Constants {
 
         }
 
+        public static final class climber{
+            public static final int rotMotorID = 777; //TODO
+
+        }
         public static final class arm {
 
             public static final class Shoulder {
