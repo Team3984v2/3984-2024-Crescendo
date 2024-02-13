@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.Swerve.arm;
 import frc.robot.Constants.Swerve.arm.Shoulder;
 import frc.robot.Constants.Swerve.climber;
@@ -29,6 +30,7 @@ public class Climber extends SubsystemBase{
     private RelativeEncoder EncoderClimb;
     private ArmFeedforward ClimbFF;
     private SparkPIDController ClimbPID;
+
 
 
     public Climber() {
@@ -65,6 +67,10 @@ public class Climber extends SubsystemBase{
         );
         // Set position to zero
       
+        ClimbPID = climbMotor.getPIDController();
+        ClimbPID.setP(Constants.Swerve.climber.kP);
+        ClimbPID.setI(Constants.Swerve.climber.kI);
+        ClimbPID.setD(Constants.Swerve.climber.kD);
 
 
         // Initialize the built in Motor PID controllers
@@ -78,6 +84,7 @@ public class Climber extends SubsystemBase{
     public Command Up(){
         return run(() 
         -> climbMotor.set(0.1));
+        
     }
     public Command Down(){
         return run(() 

@@ -170,6 +170,10 @@ public final class Constants {
 
         public static final class climber{
             public static final int rotMotorID = 777; //TODO
+            public static final double kP = 0.5;
+            public static final double kI = 0.5;
+            public static final double kD = 0.5;
+            public static final double gearRatio = 100;
 
         }
         public static final class arm {
