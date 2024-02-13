@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
+import com.ctre.phoenix6.configs.Pigeon2Configurator;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import frc.robot.Constants;
 import frc.robot.Constants.Swerve.Mod0;
 import frc.robot.Constants.Swerve.Mod1;
@@ -25,8 +28,8 @@ import frc.robot.Constants.Swerve.Mod2;
 import frc.robot.Constants.Swerve.Mod3;
 
 public class Swerve extends SubsystemBase {
-  // private final Pigeon2 gyro1;
-  ADXRS450_Gyro gyro;
+  private final Pigeon2 gyro1;
+  //ADXRS450_Gyro gyro;
   private SwerveDriveOdometry swerveOdometry;
   private SwerveModule[] mSwerveMods;
   private PhotonCamera cam;
@@ -34,11 +37,9 @@ public class Swerve extends SubsystemBase {
   private AprilTagFieldLayout layout;
 
   public Swerve() {
-    // gyro1 = new Pigeon2(Constants.Swerve.pigeonID);
-    gyro = new ADXRS450_Gyro();
-    gyro.calibrate();
-    // gyro1.configFactoryDefault();
-    // SwerveModulePosition
+    gyro1 = new Pigeon2(0);
+    gyro1.getConfigurator().apply(new Pigeon2Configuration());
+    //gyro = new ADXRS450_Gyro();
     zeroGyro();
     mSwerveMods = new SwerveModule[] {
         new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -175,13 +176,11 @@ public class Swerve extends SubsystemBase {
   }
 
   public void zeroGyro() {
-    // FIXME ?
-    gyro.reset();
-    // gyro.setYaw(0);
+    gyro1.reset();
   }
 
   public Rotation2d getYaw() {
-    return Rotation2d.fromDegrees(gyro.getAngle() * (Constants.Swerve.invertGyro ? 1 : -1));
+    return Rotation2d.fromDegrees(gyro1.getAngle() * (Constants.Swerve.invertGyro ? 1 : -1));
 
   }
 
