@@ -37,6 +37,8 @@ public class RobotContainer {
   new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton halfSpeed = 
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+  //private final JoystickButton resetwheels = 
+  //  new JoystickButton(driver, XboxController.Button.kX.value);
   private final Swerve s_Swerve = new Swerve();
   private final PhotonCamera cam = new PhotonCamera("Microsoft_LifeCam_HD-3000 (1)"); //NAME CAMERA  
   private final aimAtTarget aimCommand = new aimAtTarget(cam, s_Swerve, s_Swerve::getPose);
@@ -82,7 +84,7 @@ public class RobotContainer {
     aim.whileTrue(aimCommand);
     //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-
+    //resetwheels.onTrue(new InstantCommand(() -> s_Swerve.resetWheels()));
   }
 
   /**

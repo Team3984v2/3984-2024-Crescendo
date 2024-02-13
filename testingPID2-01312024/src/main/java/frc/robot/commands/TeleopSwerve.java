@@ -29,7 +29,6 @@ public class TeleopSwerve extends Command {
       BooleanSupplier halfSpeed) {
     this.s_Swerve = s_Swerve;
     addRequirements(s_Swerve);
-
     this.translationSup = translationSup;
     this.strafeSup = strafeSup;
     this.rotationSup = rotationSup;

@@ -103,7 +103,14 @@ public class Swerve extends SubsystemBase {
     desiredStates[3] = new SwerveModuleState(0, new Rotation2d(Mod3.angleOffset.getDegrees() + 45));
     setModuleStates(desiredStates);
   }
-
+  public void resetWheels() {
+    SwerveModuleState[] desiredStates = new SwerveModuleState[4];
+    desiredStates[0] = new SwerveModuleState(0, new Rotation2d(Mod0.angleOffset.getDegrees()));
+    desiredStates[1] = new SwerveModuleState(0, new Rotation2d(Mod1.angleOffset.getDegrees()));
+    desiredStates[2] = new SwerveModuleState(0, new Rotation2d(Mod2.angleOffset.getDegrees()));
+    desiredStates[3] = new SwerveModuleState(0, new Rotation2d(Mod3.angleOffset.getDegrees()));
+    setModuleStates(desiredStates);
+  }
   public void stop() {
     setModuleStates(Constants.Swerve.swerveKinematics.toSwerveModuleStates(new ChassisSpeeds()));
   }
