@@ -31,7 +31,7 @@ public final class Constants {
     public static final class Swerve{
 
         public static final double stickDeadband = 0.1;
-        public static final boolean invertGyro = false;
+        public static final boolean invertGyro = true;
 
 
         /* Drivetrain COnstants */
@@ -96,7 +96,7 @@ public final class Constants {
         public static final IdleMode driveNeutralMode = IdleMode.kBrake;
 
         /* Motor Inverts */
-        public static final boolean driveInvert = true;
+        public static final boolean driveInvert = true; //true
         public static final boolean angleInvert = false;
 
         /* Angle Encoder Invert */
@@ -109,7 +109,7 @@ public final class Constants {
         public static final int angleMotorID = 7;
         public static final int canCoderID = 2;
        
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(203.75 );//23.55
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(203.75);//23.55
         public static final SwerveModuleConstants constants =
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -139,7 +139,7 @@ public final class Constants {
         public static final int driveMotorID = 2;
         public static final int angleMotorID = 1;
         public static final int canCoderID = 4;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(337.02734375 );//158.02734375
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(337.02734375);//158.02734375
         public static final SwerveModuleConstants constants =
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
