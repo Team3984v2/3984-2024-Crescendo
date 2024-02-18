@@ -167,7 +167,6 @@ public final class Constants {
             public static final double SPEAKER = 0.69;
 
         }
-
         public static final class climber{
             public static final int rotMotorID = 777; //TODO
             public static final double kP = 0.5;
