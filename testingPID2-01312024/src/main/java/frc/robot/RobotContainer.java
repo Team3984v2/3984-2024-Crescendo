@@ -11,11 +11,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.Swerve.flywheel;
 import frc.robot.autos.Auton;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.aimAtTarget;
 import frc.robot.subsystems.Swerve;
-
+import frc.robot.subsystems.Flywheel;
+import frc.robot.subsystems.Climber;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -36,10 +38,17 @@ public class RobotContainer {
   private final JoystickButton aim = 
   new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton halfSpeed = 
-    new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton speaker = 
+    new JoystickButton(driver, XboxController.Button.kA.value);
+  private final JoystickButton amp = 
+    new JoystickButton(driver, XboxController.Button.kB.value);
+  private final JoystickButton intake =
+    new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   //private final JoystickButton resetwheels = 
   //  new JoystickButton(driver, XboxController.Button.kX.value);
   private final Swerve s_Swerve = new Swerve();
+  private final Flywheel fwheel = new Flywheel();
   private final PhotonCamera cam = new PhotonCamera("Microsoft_LifeCam_HD-3000 (1)"); //NAME CAMERA  
   private final aimAtTarget aimCommand = new aimAtTarget(cam, s_Swerve, s_Swerve::getPose);
   private final Auton autonChooser = new Auton(s_Swerve);
@@ -62,13 +71,9 @@ public class RobotContainer {
         () -> -driver.getRawAxis(rotationAxis),
         ()->false,//() -> robotCentric.getAsBoolean(),
         () -> halfSpeed.getAsBoolean()));
-
-    
-      /*new Intake(
-        claw, 
-        () -> Intake.getAsBoolean(),
-        () -> Outtake.getAsBoolean()
-      );*/
+    fwheel.setDefaultCommand(
+      fwheel.moveTo(flywheel.AMP/2, flywheel.AMP/2)
+    );
     // Configure the button bindings
     configureButtonBindings();
     
@@ -84,6 +89,9 @@ public class RobotContainer {
     aim.whileTrue(aimCommand);
     //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    speaker.whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER));
+    amp.whileTrue(fwheel.moveTo(flywheel.AMP, flywheel.AMP));
+    //intake.whileTrue(); // TODO
     //resetwheels.onTrue(new InstantCommand(() -> s_Swerve.resetWheels()));
   }
 
