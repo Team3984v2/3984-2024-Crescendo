@@ -48,8 +48,8 @@ public class RobotContainer {
   //private final JoystickButton resetwheels = 
   //  new JoystickButton(driver, XboxController.Button.kX.value);
   private final Swerve s_Swerve = new Swerve();
-  private final Flywheel fwheel = new Flywheel();
-  private final PhotonCamera cam = new PhotonCamera("Microsoft_LifeCam_HD-3000 (1)"); //NAME CAMERA  
+  //private final Flywheel fwheel = new Flywheel();
+  private final PhotonCamera cam = new PhotonCamera("Global_Shutter_Camera"); //NAME CAMERA  
   private final aimAtTarget aimCommand = new aimAtTarget(cam, s_Swerve, s_Swerve::getPose);
   private final Auton autonChooser = new Auton(s_Swerve);
 
@@ -71,9 +71,9 @@ public class RobotContainer {
         () -> -driver.getRawAxis(rotationAxis),
         ()->false,//() -> robotCentric.getAsBoolean(),
         () -> halfSpeed.getAsBoolean()));
-    fwheel.setDefaultCommand(
+    /*fwheel.setDefaultCommand(
       fwheel.moveTo(flywheel.AMP/2, flywheel.AMP/2)
-    );
+    );*/
     // Configure the button bindings
     configureButtonBindings();
     
@@ -89,8 +89,8 @@ public class RobotContainer {
     aim.whileTrue(aimCommand);
     //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    speaker.whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER));
-    amp.whileTrue(fwheel.moveTo(flywheel.AMP, flywheel.AMP));
+    //speaker.whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER));
+    //amp.whileTrue(fwheel.moveTo(flywheel.AMP, flywheel.AMP));
     
     //intake.whileTrue(); // TODO
     //resetwheels.onTrue(new InstantCommand(() -> s_Swerve.resetWheels()));

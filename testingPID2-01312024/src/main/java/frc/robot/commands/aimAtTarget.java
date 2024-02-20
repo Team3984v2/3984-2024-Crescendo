@@ -60,14 +60,14 @@ public class aimAtTarget extends Command{
             var goalPose = targetPos.toPose2d();
             System.out.println(robotPose2d.getRotation());
             System.out.println(goalPose.getRotation());
-            omegaController.setSetpoint(goalPose.getRotation().getRadians());
+            //omegaController.setSetpoint(goalPose.getRotation().getRadians());
         }
         else{
             lastTarget = null;
         }
         if (lastTarget == null){
             s_Swerve.stop();
-        }else{
+        }/*else{
             var omegaSpeed = omegaController.calculate(robotPose2d.getRotation().getRadians());
             if (omegaController.atSetpoint()){
                 omegaSpeed = 0;
@@ -82,7 +82,7 @@ public class aimAtTarget extends Command{
                     )
                 )
             );
-        }
+        }*/
     }
   
     @Override

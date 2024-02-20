@@ -148,7 +148,7 @@ public final class Constants {
             public static final double FWDiameter = 4.0; //Inches
             public static final double tolerance = 1.0; //Meters per second
             public static final class FWtop {
-                public static final int FWid = 69;
+                public static final int FWid = 68;
                 public static final double kP = 0.69;
                 public static final double kI = 0.69;
                 public static final double kD = 0.69;
