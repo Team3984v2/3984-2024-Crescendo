@@ -175,6 +175,23 @@ public final class Constants {
             public static final double gearRatio = 100;
 
         }
+        public static final class intake{
+            public static final class intakeArm{
+                public static final int rotMotorID = 777; //TODO
+                public static final double kP = 0.5;
+                public static final double kI = 0.5;
+                public static final double kD = 0.5;
+                public static final double gearRatio = 100;
+
+            }
+            public static final class intakeMotor{
+                public static final int IDR = 777;
+                public static final int IDL = 777;
+
+            }
+            
+
+        }
         public static final class arm {
 
             public static final class Shoulder {
