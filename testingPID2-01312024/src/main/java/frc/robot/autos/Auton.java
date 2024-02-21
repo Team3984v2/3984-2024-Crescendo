@@ -24,13 +24,13 @@ public final class Auton {
 
     private final HashMap<String, Command> eventMap;
     SendableChooser<Command> autonChooser;
-    private final AutoBuilder autonBuilder2;
+    private final AutoBuilder autonBuilder;
     //private final SwerveAutoBuilder autonBuilder;
     public Auton(Swerve s_Swerve){
         this.s_Swerve = s_Swerve;
         eventMap = new HashMap<>();
         setMarkers();
-        autonBuilder2 = new AutoBuilder();
+        autonBuilder = new AutoBuilder();
         AutoBuilder.configureHolonomic(
             s_Swerve::getPose,
             s_Swerve::resetOdometry,
@@ -49,8 +49,11 @@ public final class Auton {
                 }
                 return false;
             }, 
-            s_Swerve);
-        autonChooser = new SendableChooser<Command>();
+            s_Swerve
+        );
+        autonChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autonChooser);
+        //new SendableChooser<Command>();
         autonChooser.setDefaultOption("Score 1", scoreOne());
         /* 
         autonChooser.addOption("Score 1, Mobility", score1Mobility());
@@ -69,6 +72,9 @@ public final class Auton {
     }
     public Command scoreOne(){
         return null;
+    }
+    public Command testPath(){
+        return new PathPlannerAuto("testPath");
     }
     /*public Command score1Mobility(){
 

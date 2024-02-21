@@ -5,9 +5,15 @@
 package frc.robot;
 
 import org.photonvision.PhotonCamera;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -51,8 +57,7 @@ public class RobotContainer {
   //private final Flywheel fwheel = new Flywheel();
   private final PhotonCamera cam = new PhotonCamera("Global_Shutter_Camera"); //NAME CAMERA  
   private final aimAtTarget aimCommand = new aimAtTarget(cam, s_Swerve, s_Swerve::getPose);
-  private final Auton autonChooser = new Auton(s_Swerve);
-
+  private final SendableChooser<Command> autoChooser;
 
   // Xbox controller
   
@@ -62,7 +67,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+    //autoChooser.addOption("testPath", testPath());
     s_Swerve.setDefaultCommand(
       new TeleopSwerve(
         s_Swerve,
@@ -78,6 +85,7 @@ public class RobotContainer {
     configureButtonBindings();
     
   }
+
   //robotCentric.get();
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -101,13 +109,17 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+  public Command testPath(){
+      return new PathPlannerAuto("testAuto");
+  }
+  
   public Command getAutonomousCommand() {
     
     //return new SequentialCommandGroup(
     //  Armm.moveTo(arm.INTAKE[0], arm.INTAKE[1]).withTimeout(4), claw.Outtake().withTimeout(2), Armm.moveTo(arm.RETRACTED[0], arm.RETRACTED[1]));
     // An ExampleCommand will run in autonomous
     //return new SimpleAuto(s_Swerve, claw, Armm);
-    return autonChooser.getSelected();
+    return autoChooser.getSelected();
     //return new exampleAuto(s_Swerve, Armm, claw);
   }
 }

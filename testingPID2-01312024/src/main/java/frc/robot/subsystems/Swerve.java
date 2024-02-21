@@ -4,6 +4,13 @@ import java.io.UncheckedIOException;
 
 import org.photonvision.PhotonCamera;
 
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
+import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -14,13 +21,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix6.configs.Pigeon2Configuration;
-import com.ctre.phoenix6.configs.Pigeon2Configurator;
-import com.ctre.phoenix6.hardware.Pigeon2;
 import frc.robot.Constants;
 import frc.robot.Constants.Swerve.Mod0;
 import frc.robot.Constants.Swerve.Mod1;
@@ -58,6 +62,26 @@ public class Swerve extends SubsystemBase {
     }
     field = new Field2d();
     SmartDashboard.putData("Field", field);
+
+    AutoBuilder.configureHolonomic(
+            this::getPose,
+            this::resetOdometry,
+            this::getSpeeds, 
+            this::setModuleStates, 
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(Constants.AutoConstants.kPXController, 0, 0),
+                new PIDConstants(Constants.AutoConstants.kPThetaController, 0, 0),
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond, 
+                Constants.Swerve.f1ModuleOffset.getNorm(), 
+                new ReplanningConfig()
+            ), 
+            ()->{
+                if (DriverStation.getAlliance().isPresent()){
+                    return DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            }, 
+            this);
   }
 
   public void drive(
