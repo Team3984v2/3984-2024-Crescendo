@@ -13,14 +13,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class flywheel extends SubsystemBase{
+public class Flywheel extends SubsystemBase{
     private CANSparkMax top;
     private CANSparkMax bott;
     private RelativeEncoder topEncoder;
     private RelativeEncoder bottEncoder;
     private SparkPIDController FWtopPID;
     private SparkPIDController FWbottPID;
-    public flywheel() {
+    public Flywheel() {
         // initialies all the variables and constants 
         top = new CANSparkMax(frc.robot.Constants.Swerve.flywheel.FWtop.FWid, MotorType.kBrushless );
         bott = new CANSparkMax(frc.robot.Constants.Swerve.flywheel.FWbott.FWid, MotorType.kBrushless );
