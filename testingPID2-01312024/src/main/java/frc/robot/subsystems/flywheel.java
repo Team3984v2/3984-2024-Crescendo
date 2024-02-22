@@ -59,7 +59,7 @@ public class Flywheel extends SubsystemBase{
     }
 
     public double[] getVelocity(){
-        double topVelocity = topEncoder.getVelocity();
+        double topVelocity = topEncoder.getVelocity(); //RPM
         double bottVelocity = bottEncoder.getVelocity();
         double[] combinedVelocity = 
         new double[] {topVelocity , bottVelocity};
@@ -75,11 +75,11 @@ public class Flywheel extends SubsystemBase{
     public void GoTo(double topGoal, double bottGoal){
         FWtopPID.setReference(
             topGoal, 
-            ControlType.kPosition, 0
+            ControlType.kVelocity, 0
         );
         FWbottPID.setReference(
             bottGoal, 
-            ControlType.kPosition, 0
+            ControlType.kVelocity, 0
         );
     }
 

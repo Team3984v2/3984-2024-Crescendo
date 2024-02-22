@@ -1,17 +1,20 @@
 package frc.robot.subsystems;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkRelativeEncoder;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.Swerve.arm;
 import frc.robot.Constants.Swerve.climber;
 
 
@@ -28,56 +31,62 @@ public class Climber extends SubsystemBase{
 
     public Climber() {
         // Initialize the Motors
-        initializeMotors();
-    }
-    public void initializeMotors(){
         climbMotor = new CANSparkMax(
             climber.rotMotorID, 
-            MotorType.kBrushless);
+            MotorType.kBrushless
+        
+        );
+        climbMotor2 = new CANSparkMax(
+            climber.rotMotorID, 
+            MotorType.kBrushless
+        );
+        
+        climbMotor2.restoreFactoryDefaults();
         climbMotor.restoreFactoryDefaults();
+        climbMotor2.setIdleMode(IdleMode.kBrake);
         climbMotor.setIdleMode(IdleMode.kBrake);
+        
         // Initialize the built in shoulder encoder
         EncoderClimb = climbMotor.getEncoder(
             SparkRelativeEncoder.Type.kHallSensor, 
-            42);
+            42
+        );
+        EncoderClimb2 = climbMotor2.getEncoder(
+            SparkRelativeEncoder.Type.kHallSensor,
+            42
+        );
+
         // Set Conversion factor for Encoder -> degrees
         EncoderClimb.setPositionConversionFactor(
-            360.0/arm.Shoulder.gearRatio //TODO
+            360.0/climber.gearRatio //TODO
         ); 
         // Set Velocity Conversion factor -> degrees/second
         EncoderClimb.setVelocityConversionFactor(
-            (360 / arm.Shoulder.gearRatio) / 60.0  //TODO
+            (360 / climber.gearRatio) / 60.0  //TODO
         );
+        // Set the position to zero
+        EncoderClimb2.setPosition(0);
+
+        EncoderClimb2.setPositionConversionFactor(
+            360.0/climber.gearRatio //TODO
+        ); 
+        // Set Velocity Conversion factor -> degrees/second
+        EncoderClimb2.setVelocityConversionFactor(
+            (360 / climber.gearRatio) / 60.0  //TODO
+        );
+        // Set the position to zero
+        EncoderClimb2.setPosition(0);
         // Initialiation of PIDs
         ClimbPID = climbMotor.getPIDController();
         ClimbPID.setP(Constants.Swerve.climber.kP);
         ClimbPID.setI(Constants.Swerve.climber.kI);
         ClimbPID.setD(Constants.Swerve.climber.kD);
 
-        climbMotor2 = new CANSparkMax(
-            climber.rotMotorID, 
-            MotorType.kBrushless);
-        climbMotor2.restoreFactoryDefaults();
-        climbMotor2.setIdleMode(IdleMode.kBrake);
-        EncoderClimb2 = climbMotor2.getEncoder(
-            SparkRelativeEncoder.Type.kHallSensor,
-            42);  
-        // Set the position to zero
-        EncoderClimb2.setPosition(0);
-        EncoderClimb2.setPositionConversionFactor(
-            360.0/arm.Shoulder.gearRatio //TODO
-        ); 
-        // Set Velocity Conversion factor -> degrees/second
-        EncoderClimb2.setVelocityConversionFactor(
-            (360 / arm.Shoulder.gearRatio) / 60.0  //TODO
-        );
-        // Set the position to zero
-        EncoderClimb2.setPosition(0);
-        // Initialization of PIDs
         ClimbPID2 = climbMotor2.getPIDController();
         ClimbPID2.setP(Constants.Swerve.climber.kP);
         ClimbPID2.setI(Constants.Swerve.climber.kI);
         ClimbPID2.setD(Constants.Swerve.climber.kD);
+
         // burn flash
         climbMotor.burnFlash();
         climbMotor2.burnFlash();
@@ -117,7 +126,14 @@ public class Climber extends SubsystemBase{
     }
     // Run PID
     public void GoTo(Rotation2d[] goal){
-        //TODO Do PID in here
+        ClimbPID.setReference(
+            goal[0].getDegrees(), 
+            ControlType.kPosition, 0
+        );
+        ClimbPID2.setReference(
+            goal[0].getDegrees(), 
+            ControlType.kPosition, 0
+        );
     }
     // Convert PID method into a runable command
     public Command moveTo(Rotation2d[] goal){
@@ -137,7 +153,7 @@ public class Climber extends SubsystemBase{
     }
    
     public void periodic(){
-        SmartDashboard.putNumber("ClimbPos", 1);
+        SmartDashboard.putNumber("ClimbPos", getPos()[0].getDegrees());
     }
 
 }

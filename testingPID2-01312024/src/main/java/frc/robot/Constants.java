@@ -34,7 +34,7 @@ public final class Constants {
         public static final boolean invertGyro = true;
 
 
-        /* Drivetrain COnstants */
+        /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(21.73);
         public static final Translation2d f1ModuleOffset = new Translation2d(trackWidth/2, trackWidth/2);
         public static final Translation2d f2ModuleOffset = new Translation2d(trackWidth/2, -trackWidth/2);
@@ -47,8 +47,8 @@ public final class Constants {
         public static final double openLoopRamp = 0.25;
         public static final double closedLoopRamp = 0.0;
 
-        public static final double driveGearRatio = (6.75 / 1.0); // TODO, L1, L2, or L3 6.75:1
-        public static final double angleGearRatio = ((150.0 / 7.0)/1.0 /*12.8 / 1.0*/ ); // 12.8:1
+        public static final double driveGearRatio = (6.75 / 1.0); 
+        public static final double angleGearRatio = ((150.0 / 7.0)/1.0); 
 
         public static final SwerveDriveKinematics swerveKinematics =
             new SwerveDriveKinematics(
@@ -64,7 +64,7 @@ public final class Constants {
         public static final int angleContinuousCurrentLimit = 20;
         public static final int driveContinuousCurrentLimit = 80;
 
-        /* TODO tune Angle Motor PID Values */
+        /* Angle Motor PID Values */
         public static final double angleKP = 0.005;
         public static final double angleKI = 0.0;
         public static final double angleKD = 0.0;
@@ -76,14 +76,13 @@ public final class Constants {
         public static final double driveKD = 0;
         public static final double driveKFF = 0.0;
 
-        /* Drive Motor Characterization Values */
+        /* TODO Drive Motor Characterization Values */
         public static final double driveKS = 0.667;//0.11563;
         public static final double driveKV = 2.44;//2.656;
         public static final double driveKA = 0.27;//0.276;
 
         /* Drive Motor Conversion Factors */
-        public static final double driveConversionPositionFactor =
-            (wheelDiameter * Math.PI) / driveGearRatio;
+        public static final double driveConversionPositionFactor = (wheelDiameter * Math.PI) / driveGearRatio;
         public static final double driveConversionVelocityFactor = driveConversionPositionFactor / 60.0;
         public static final double angleConversionFactor = 360.0 / angleGearRatio;
 
@@ -96,12 +95,13 @@ public final class Constants {
         public static final IdleMode driveNeutralMode = IdleMode.kBrake;
 
         /* Motor Inverts */
-        public static final boolean driveInvert = true; //true
+        public static final boolean driveInvert = true; 
         public static final boolean angleInvert = false;
 
         /* Angle Encoder Invert */
-        //public static final boolean canCoderInvert = false;
-        public static final SensorDirectionValue canCoderInvert = SensorDirectionValue.CounterClockwise_Positive;
+        public static final SensorDirectionValue canCoderInvert = SensorDirectionValue.CounterClockwise_Positive; //public static final boolean canCoderInvert = false;
+        
+        
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod3 {
@@ -145,30 +145,30 @@ public final class Constants {
         }
 
         public static final class flywheel {
-            public static final double FWDiameter = 4.0; //Inches
+            public static final double FWDiameter = 4.0; //Inches NEED TO CONVERT
             public static final double tolerance = 1.0; //Meters per second
-            public static final class FWtop {
+            public static final class FWtop {//TODO PID
                 public static final int FWid = 68;
                 public static final double kP = 0.69;
                 public static final double kI = 0.69;
                 public static final double kD = 0.69;
                 public static final double gearRatio = 1.0; //TODO
             }
-
-            public static final class FWbott {
+            public static final class FWbott { //TODO PID
                 public static final int FWid = 69;
                 public static final double kP = 0.69;
                 public static final double kI = 0.69;
                 public static final double kD = 0.69;
                 public static final double gearRatio = 1.0; //TODO
             }
-
+            // AMP and SPEAKER velocity presets
             public static final double AMP = 0.69;
             public static final double SPEAKER = 0.69;
 
         }
         public static final class climber{
             public static final int rotMotorID = 777; //TODO
+            public static final int rotMotorID2 = 777;
             public static final double kP = 0.5;
             public static final double kI = 0.5;
             public static final double kD = 0.5;
@@ -192,44 +192,7 @@ public final class Constants {
             
 
         }
-        public static final class arm {
-
-            public static final class Shoulder {
-                public static final double Length = 34;
-                public static final int rotMotorID = 9; 
-                public static final Rotation2d angleOffset = Rotation2d.fromDegrees(8); //TODO
-                public static final double gearRatio = 640.0; 
-                /* TODO Arm Motor PID Values */
-                public static final double Ks = 1;
-                public static final double Kg = 1.0;
-                public static final double Kv = 1.95;
-                public static final double Ka = 0.06;
-                public static final double Kp = 0.05;
-                public static final double Ki = 0;
-                public static final double Kd = 0;
-                public static final double Kff = 0;
-            }
-            public static final class Joint {
-                public static final double Length = 23.5;
-                public static final int rotMotorID = 10;
-                public static final Rotation2d angleOffset = Rotation2d.fromDegrees(23); //TODO
-                public static final double gearRatio = 300.0; 
-                public static final double Ks = 1;
-                public static final double Kg = 1.0;
-                public static final double Kv = 1.95;
-                public static final double Ka = 0.06;
-                public static final double Kp = 0.01;
-                public static final double Ki = 0;
-                public static final double Kd = 0;
-                public static final double Kff = 0;
-            }
-            public static final double[] INTAKE = new double[]{0, 82.46 + 5.3}; 
-            public static final double[] MIDGOAL = new double[]{49.26 + 1.6 - 6.4 + 6.8, 61.97+ 5.3}; 
-        public static final double[] HIGHGOAL = new double[]{86.58-3- 6.4 + 6.8, 130.2 /*86.94 + 1.6 + 5, 132.26 + 5.3*/}; 
-            public static final double[] RETRACTED = new double[]{0, 0}; 
-            public static final double[] SHELF = new double[]{81.65 + 1.6- 6.4 + 6.8, 154.2 + 5.3}; 
-
-        }
+        
         public static final class camera{
             public static final double Height = 0;
             //public static final double TargetHeight = 0;
