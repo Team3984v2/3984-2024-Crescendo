@@ -45,9 +45,36 @@ public class Intake extends SubsystemBase{
             intakeMotor.IDR
         );
 
+        lolIntakeArm.restoreFactoryDefaults();
+        lolIntakeArm.setIdleMode(IdleMode.kBrake);
 
-        intakeMotorL.set(0);
+        //Initializes encoder for intake's arm
+        intakeArmEncoder = lolIntakeArm.getEncoder(
+            SparkRelativeEncoder.Type.kHallSensor, 
+            42
+        );
+
+
+        // Set Conversion factor for Encoder -> degrees
+        intakeArmEncoder.setPositionConversionFactor(
+            360.0/intakeArm.gearRatio //TODO
+        ); 
+        // Set Velocity Conversion factor -> degrees/second
+        intakeArmEncoder.setVelocityConversionFactor(
+            (360 / intakeArm.gearRatio) / 60.0  //TODO
+        );
+        // Set the position to zero
+        intakeArmEncoder.setPosition(0);
+
+        //Initialize arm PID
+        intakeArmPID = lolIntakeArm.getPIDController();
+        intakeArmPID.setP(Constants.Swerve.climber.kP);
+        intakeArmPID.setI(Constants.Swerve.climber.kI);
+        intakeArmPID.setD(Constants.Swerve.climber.kD);
+
+        lolIntakeArm.burnFlash();
     }
+    
     public Command Out(){
          return run(()->{
             intakeMotorL.set(0.1);
@@ -65,5 +92,43 @@ public class Intake extends SubsystemBase{
             intakeMotorL.stopMotor();
             intakeMotorR.stopMotor();
         });
+    }
+
+    public Rotation2d getPos(){
+        Rotation2d posIntakeArm = Rotation2d.fromDegrees(intakeArmEncoder.getPosition()); 
+        return posIntakeArm;
+    }
+    public Rotation2d getErrors(Rotation2d goal){
+        Rotation2d currPos =getPos();
+        double error = currPos.getDegrees() - goal.getDegrees();
+        return Rotation2d.fromDegrees(error);
+    }
+    // Run PID
+    public void GoTo(Rotation2d goal){
+        intakeArmPID.setReference(
+            goal.getDegrees(), 
+            ControlType.kPosition, 0
+        );
+        
+    }
+    // Convert PID method into a runable command
+    public Command moveTo(Rotation2d goal){
+        
+        //Rotation2d[] a = new Rotation2d[]{Rotation2d.fromDegrees(Sangle)/*(49.26)/*getAngles(x, y)[0]*/, Rotation2d.fromDegrees(Jangle)};/*(61.97)};// getAngles(x, y)[1]};*/
+        return runOnce(()->{
+            SmartDashboard.putNumber("Goal", goal.getDegrees());
+           
+        }).andThen(run(
+            () -> GoTo(goal)
+        ).until(
+            ()->(
+                Math.abs(getErrors(goal).getDegrees()) < Constants.Swerve.intake.tolerance 
+                && Math.abs(getErrors(goal).getDegrees()) < Constants.Swerve.intake.tolerance
+            ))
+        );
+    }
+   
+    public void periodic(){
+        SmartDashboard.putNumber("IntakePos", getPos().getDegrees());
     }
 }
