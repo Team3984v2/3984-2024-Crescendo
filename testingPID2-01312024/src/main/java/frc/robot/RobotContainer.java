@@ -17,13 +17,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.Swerve.flywheel;
-import frc.robot.autos.Auton;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.aimAtTarget;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Flywheel;
-import frc.robot.subsystems.Climber;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -111,6 +107,9 @@ public class RobotContainer {
    */
   public Command testPath(){
       return new PathPlannerAuto("testAuto");
+  }
+  public Command AutoLeft2Notes(){
+    return new PathPlannerAuto("AutoLeft2.5Notes");
   }
   
   public Command getAutonomousCommand() {
