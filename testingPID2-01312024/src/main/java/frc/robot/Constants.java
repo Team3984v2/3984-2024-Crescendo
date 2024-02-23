@@ -186,8 +186,8 @@ public final class Constants {
 
             }
             public static final class intakeMotor{
-                public static final int IDR = 777;
-                public static final int IDL = 777;
+                public static final int IDR = 0;
+                public static final int IDL = 1;
 
             }
             
