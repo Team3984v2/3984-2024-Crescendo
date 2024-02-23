@@ -52,9 +52,6 @@ public class Swerve extends SubsystemBase {
         new SwerveModule(3, Constants.Swerve.Mod3.constants)
     };
     swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getPositions());
-
-    cam = new PhotonCamera("Microsoft_LifeCam_HD-3000 (1)"); // NAME CAMERA
-
     try {
       layout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
     } catch (UncheckedIOException e) {
@@ -333,6 +330,7 @@ public class Swerve extends SubsystemBase {
   public void periodic() {
 
     swerveOdometry.update(getYaw(), getPositions());
+    
     field.setRobotPose(getPose());
 
     for (SwerveModule mod : mSwerveMods) {

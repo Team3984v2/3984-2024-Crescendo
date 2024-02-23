@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.29,
-      "y": 5.57
+      "x": 0.6766573533147072,
+      "y": 6.743350629558403
     },
-    "rotation": 0
+    "rotation": -117.6459753637386
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "testPath"
+            "pathName": "Auto_Left_2.5_Notes"
           }
         }
       ]
