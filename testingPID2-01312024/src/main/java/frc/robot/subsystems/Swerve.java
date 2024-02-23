@@ -41,7 +41,7 @@ public class Swerve extends SubsystemBase {
   private AprilTagFieldLayout layout;
 
   public Swerve() {
-    gyro1 = new Pigeon2(0);
+    gyro1 = new Pigeon2(5);
     gyro1.getConfigurator().apply(new Pigeon2Configuration());
     //gyro = new ADXRS450_Gyro();
     zeroGyro();
