@@ -20,12 +20,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.aimAtTarget;
 import frc.robot.subsystems.Swerve;
-<<<<<<< HEAD
-=======
 import frc.robot.subsystems.Flywheel;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
->>>>>>> 79e4a21a3d5752efa9a3c0b06af626f1ad70e95f
+import frc.robot.Constants.Swerve.flywheel;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
