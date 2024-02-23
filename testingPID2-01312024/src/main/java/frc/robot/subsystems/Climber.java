@@ -65,7 +65,7 @@ public class Climber extends SubsystemBase{
             (360 / climber.gearRatio) / 60.0  //TODO
         );
         // Set the position to zero
-        EncoderClimb2.setPosition(0);
+        EncoderClimb.setPosition(0);
 
         EncoderClimb2.setPositionConversionFactor(
             360.0/climber.gearRatio //TODO
@@ -146,8 +146,8 @@ public class Climber extends SubsystemBase{
             () -> GoTo(goal)
         ).until(
             ()->(
-                Math.abs(getErrors(goal)[0].getDegrees()) < Constants.Swerve.flywheel.tolerance 
-                && Math.abs(getErrors(goal)[1].getDegrees()) < Constants.Swerve.flywheel.tolerance
+                Math.abs(getErrors(goal)[0].getDegrees()) < Constants.Swerve.climber.tolerance 
+                && Math.abs(getErrors(goal)[1].getDegrees()) < Constants.Swerve.climber.tolerance
             ))
         );
     }
