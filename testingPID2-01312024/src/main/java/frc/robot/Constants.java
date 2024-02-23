@@ -169,6 +169,7 @@ public final class Constants {
         public static final class climber{
             public static final int rotMotorID = 777; //TODO
             public static final int rotMotorID2 = 777;
+            public static final double tolerance = 1.0;
             public static final double kP = 0.5;
             public static final double kI = 0.5;
             public static final double kD = 0.5;
@@ -176,6 +177,7 @@ public final class Constants {
 
         }
         public static final class intake{
+            public static final double tolerance = 1.0;
             public static final class intakeArm{
                 public static final int rotMotorID = 777; //TODO
                 public static final double kP = 0.5;
