@@ -103,12 +103,11 @@ public final class Constants {
         
         
         /* Module Specific Constants */
-        /* Front Left Module - Module 0 */
+        /* Front Left Module - Module 3 */
         public static final class Mod3 {
-        public static final int driveMotorID = 8;
-        public static final int angleMotorID = 7;
-        public static final int canCoderID = 2;
-       
+        public static final int driveMotorID = 15;
+        public static final int angleMotorID = 14;
+        public static final int canCoderID = 3;
         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(203.75);//23.55
         public static final SwerveModuleConstants constants =
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -116,8 +115,8 @@ public final class Constants {
 
         /* Front Right Module - Module 1 */
         public static final class Mod1 {
-        public static final int driveMotorID = 6;
-        public static final int angleMotorID = 5;
+        public static final int driveMotorID = 17;
+        public static final int angleMotorID = 16;
         public static final int canCoderID = 1;
         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(149.15);//508.9);//328.9
         public static final SwerveModuleConstants constants =
@@ -126,18 +125,18 @@ public final class Constants {
 
         /* Back Left Module - Module 2 */
         public static final class Mod2 {
-        public static final int driveMotorID = 4;
-        public static final int angleMotorID = 3;
-        public static final int canCoderID = 3;
+        public static final int driveMotorID = 13;
+        public static final int angleMotorID = 9;
+        public static final int canCoderID = 2;
         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(40.0);//219.2
         public static final SwerveModuleConstants constants =
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
 
-        /* Back Right Module - Module 3 */
+        /* Back Right Module - Module 0 */
         public static final class Mod0 {
-        public static final int driveMotorID = 2;
-        public static final int angleMotorID = 1;
+        public static final int driveMotorID = 10;
+        public static final int angleMotorID = 11;
         public static final int canCoderID = 4;
         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(337.02734375);//158.02734375
         public static final SwerveModuleConstants constants =
@@ -148,14 +147,14 @@ public final class Constants {
             public static final double FWDiameter = 4.0; //Inches NEED TO CONVERT
             public static final double tolerance = 1.0; //Meters per second
             public static final class FWtop {//TODO PID
-                public static final int FWid = 68;
+                public static final int FWid = 18;
                 public static final double kP = 0.69;
                 public static final double kI = 0.69;
                 public static final double kD = 0.69;
                 public static final double gearRatio = 1.0; //TODO
             }
             public static final class FWbott { //TODO PID
-                public static final int FWid = 69;
+                public static final int FWid = 19;
                 public static final double kP = 0.69;
                 public static final double kI = 0.69;
                 public static final double kD = 0.69;
@@ -167,8 +166,8 @@ public final class Constants {
 
         }
         public static final class climber{
-            public static final int rotMotorID = 777; //TODO
-            public static final int rotMotorID2 = 777;
+            public static final int rotMotorID = 8; // climber left
+            public static final int rotMotorID2 = 20; // climber right
             public static final double tolerance = 1.0;
             public static final double kP = 0.5;
             public static final double kI = 0.5;
@@ -179,7 +178,7 @@ public final class Constants {
         public static final class intake{
             public static final double tolerance = 1.0;
             public static final class intakeArm{
-                public static final int rotMotorID = 777; //TODO
+                public static final int rotMotorID = 12; //TODO
                 public static final double kP = 0.5;
                 public static final double kI = 0.5;
                 public static final double kD = 0.5;

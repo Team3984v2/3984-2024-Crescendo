@@ -31,7 +31,7 @@ public class Intake extends SubsystemBase{
     private Spark intakeMotorL;
     private Spark intakeMotorR;
 
-    public void Intake(){
+    public Intake(){
 
         lolIntakeArm = new CANSparkMax(
             intakeArm.rotMotorID,
