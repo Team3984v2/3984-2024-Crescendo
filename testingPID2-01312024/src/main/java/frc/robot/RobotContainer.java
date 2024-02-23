@@ -20,6 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.aimAtTarget;
 import frc.robot.subsystems.Swerve;
+<<<<<<< HEAD
+=======
+import frc.robot.subsystems.Flywheel;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
+>>>>>>> 79e4a21a3d5752efa9a3c0b06af626f1ad70e95f
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,25 +41,28 @@ public class RobotContainer {
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
+  private final int triggerLAxis = XboxController.Axis.kLeftTrigger.value;
+  private final int triggerRAxis = XboxController.Axis.kRightTrigger.value;
   private final JoystickButton zeroGyro = 
     new JoystickButton(driver, XboxController.Button.kY.value);
-  private final JoystickButton aim = 
-  new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-  private final JoystickButton halfSpeed = 
-    new JoystickButton(driver, XboxController.Button.kX.value);
+  //private final JoystickButton aim = 
+    //new JoystickButton(driver, XboxController.Button.kX.value);
   private final JoystickButton speaker = 
-    new JoystickButton(driver, XboxController.Button.kA.value);
+    new JoystickButton(driver, XboxController.Button.kX.value);
   private final JoystickButton amp = 
     new JoystickButton(driver, XboxController.Button.kB.value);
-  private final JoystickButton intake =
+  private final JoystickButton lolintake =
     new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+  private final JoystickButton slow = 
+    new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   //private final JoystickButton resetwheels = 
   //  new JoystickButton(driver, XboxController.Button.kX.value);
   private final Swerve s_Swerve = new Swerve();
-  //private final Flywheel fwheel = new Flywheel();
+  private final Flywheel fwheel = new Flywheel();
   private final PhotonCamera cam = new PhotonCamera("Global_Shutter_Camera"); //NAME CAMERA  
   private final aimAtTarget aimCommand = new aimAtTarget(cam, s_Swerve, s_Swerve::getPose);
   private final SendableChooser<Command> autoChooser;
+  private final Intake intake = new Intake();
 
   // Xbox controller
   
@@ -73,7 +82,7 @@ public class RobotContainer {
         () -> -driver.getRawAxis(strafeAxis),
         () -> -driver.getRawAxis(rotationAxis),
         ()->false,//() -> robotCentric.getAsBoolean(),
-        () -> halfSpeed.getAsBoolean()));
+        () -> slow.getAsBoolean()));
     /*fwheel.setDefaultCommand(
       fwheel.moveTo(flywheel.AMP/2, flywheel.AMP/2)
     );*/
@@ -90,13 +99,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    aim.whileTrue(aimCommand);
+    //aim.whileTrue(aimCommand);
     //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    //speaker.whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER));
-    //amp.whileTrue(fwheel.moveTo(flywheel.AMP, flywheel.AMP));
+    speaker.whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER));
+    amp.whileTrue(fwheel.moveTo(flywheel.AMP, flywheel.AMP));
     
-    //intake.whileTrue(); // TODO
+    lolintake.whileTrue(intake.In()); // TODO
     //resetwheels.onTrue(new InstantCommand(() -> s_Swerve.resetWheels()));
   }
 
