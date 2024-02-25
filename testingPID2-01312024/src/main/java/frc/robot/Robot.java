@@ -25,7 +25,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // TODO PathPlannerServer.startServer(5811);
     ctreConfigs = new CTREConfigs();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.

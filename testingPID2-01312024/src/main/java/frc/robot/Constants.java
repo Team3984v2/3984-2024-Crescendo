@@ -33,7 +33,6 @@ public final class Constants {
         public static final double stickDeadband = 0.1;
         public static final boolean invertGyro = false;
 
-
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(21.73);
         public static final Translation2d f1ModuleOffset = new Translation2d(trackWidth/2, trackWidth/2);
@@ -192,6 +191,8 @@ public final class Constants {
                 public static final int IDL = 1;
 
             }
+            public static final Rotation2d INTAKE = Rotation2d.fromDegrees(120);
+            public static final Rotation2d IDLE = Rotation2d.fromDegrees(0);
             
 
         }

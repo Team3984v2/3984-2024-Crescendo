@@ -82,8 +82,8 @@ public class Flywheel extends SubsystemBase{
             ControlType.kVelocity, 0
         );
     }
-
-    public Command moveTo(double vtop, double vbott){
+    private boolean atSetpoint = false;
+    public Command moveTo(double vtop, double vbott, boolean idleState){
         double[] v  =new double[]{vtop, vbott};
         //Rotation2d[] a = new Rotation2d[]{Rotation2d.fromDegrees(Sangle)/*(49.26)/*getAngles(x, y)[0]*/, Rotation2d.fromDegrees(Jangle)};/*(61.97)};// getAngles(x, y)[1]};*/
         return runOnce(()->{
@@ -97,11 +97,17 @@ public class Flywheel extends SubsystemBase{
             ()->(
                 Math.abs(getErrors(v)[0]) < Constants.Swerve.flywheel.tolerance 
                 && Math.abs(getErrors(v)[1]) < Constants.Swerve.flywheel.tolerance
-            ))
+            )).andThen(runOnce(()->{
+                if (idleState){
+                    atSetpoint = false;
+                }else{
+                    atSetpoint = true;
+                }
+            }))
         );
     }
     public void periodic(){
-
+        SmartDashboard.putBoolean("Ready To Shoot?", atSetpoint);
     }
 
 }

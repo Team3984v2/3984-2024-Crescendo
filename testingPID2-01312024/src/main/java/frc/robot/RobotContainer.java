@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.aimAtTarget;
@@ -33,8 +34,6 @@ import frc.robot.Constants.Swerve.flywheel;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Joystick driver = new Joystick(1);
-  //private final SingleJointedArmSim armM = new Single
-  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
@@ -52,21 +51,12 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton slow = 
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-  //private final JoystickButton resetwheels = 
-  //  new JoystickButton(driver, XboxController.Button.kX.value);
   private final Swerve s_Swerve = new Swerve();
   private final Flywheel fwheel = new Flywheel();
   private final PhotonCamera cam = new PhotonCamera("Global_Shutter_Camera"); //NAME CAMERA  
   private final aimAtTarget aimCommand = new aimAtTarget(cam, s_Swerve, s_Swerve::getPose);
   private final SendableChooser<Command> autoChooser;
   private final Intake intake = new Intake();
-
-  // Xbox controller
-  
-  
-   
-  // Button board 
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -80,9 +70,12 @@ public class RobotContainer {
         () -> -driver.getRawAxis(rotationAxis),
         ()->false,//() -> robotCentric.getAsBoolean(),
         () -> slow.getAsBoolean()));
-    /*fwheel.setDefaultCommand(
-      fwheel.moveTo(flywheel.AMP/2, flywheel.AMP/2)
-    );*/
+    intake.setDefaultCommand(
+      intake.moveTo(Constants.Swerve.intake.IDLE, false)
+    );
+    fwheel.setDefaultCommand(
+      fwheel.moveTo(flywheel.AMP/2, flywheel.AMP/2, true)
+    );
     // Configure the button bindings
     configureButtonBindings();
     
@@ -95,15 +88,20 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+  private boolean speaekerToggle = false;
   private void configureButtonBindings() {
     //aim.whileTrue(aimCommand);
     //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    speaker.whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER));
-    amp.whileTrue(fwheel.moveTo(flywheel.AMP, flywheel.AMP));
-    
-    lolintake.whileTrue(intake.In()); // TODO
-    //resetwheels.onTrue(new InstantCommand(() -> s_Swerve.resetWheels()));
+    //speaker.whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER, false));
+    //amp.whileTrue(fwheel.moveTo(flywheel.AMP, flywheel.AMP, false));
+    speaker.onTrue(new InstantCommand(()->{speaekerToggle = true;}));
+    amp.onTrue(new InstantCommand(()->{speaekerToggle = false;}));
+    if (driver.getRawAxis(triggerLAxis) > 0.1){
+      if (speaekerToggle){fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER, false);}
+      else{fwheel.moveTo(flywheel.AMP, flywheel.AMP, false);}}
+    if (driver.getRawAxis(triggerRAxis) > 0.3){intake.Out();}
+    lolintake.whileTrue(intake.moveTo(Constants.Swerve.intake.INTAKE, true));
   }
 
   /**

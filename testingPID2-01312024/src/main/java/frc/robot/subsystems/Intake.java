@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-import org.opencv.core.Mat;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -13,11 +11,10 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.Swerve.intake.intakeArm;
@@ -112,7 +109,8 @@ public class Intake extends SubsystemBase{
         
     }
     // Convert PID method into a runable command
-    public Command moveTo(Rotation2d goal){
+    // if button is pressed, go down to goal, until within setpoint or when button stopped pressing, when button at setpoint, start intake and go until 
+    public Command moveTo(Rotation2d goal, boolean intake){
         
         //Rotation2d[] a = new Rotation2d[]{Rotation2d.fromDegrees(Sangle)/*(49.26)/*getAngles(x, y)[0]*/, Rotation2d.fromDegrees(Jangle)};/*(61.97)};// getAngles(x, y)[1]};*/
         return runOnce(()->{
@@ -124,10 +122,10 @@ public class Intake extends SubsystemBase{
             ()->(
                 Math.abs(getErrors(goal).getDegrees()) < Constants.Swerve.intake.tolerance 
                 && Math.abs(getErrors(goal).getDegrees()) < Constants.Swerve.intake.tolerance
-            ))
+            )
+        ).andThen((intake)? In(): Stop())
         );
     }
-   
     public void periodic(){
         SmartDashboard.putNumber("IntakePos", getPos().getDegrees());
     }
