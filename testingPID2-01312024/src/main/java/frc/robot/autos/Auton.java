@@ -74,25 +74,5 @@ public final class Auton {
     public Command testPath(){
         return new PathPlannerAuto("testPath");
     }
-    /*public Command score1Mobility(){
-
-        autonBuilder2.followPath(PathPlannerAuto.getPathGroupFromAutoFile("Middle4note"));
-        return autonBuilder2.fullAuto(PathPlanner.loadPath("Score1Mobility", Constants.AutoConstants.constraints));
-    }
-    public Command score1Balance(){
-        return autonBuilder2.fullAuto(PathPlanner.loadPath("Score1Balance", Constants.AutoConstants.constraints));
-    }
-    public Command score2NoCable(){
-        return autonBuilder2.fullAuto(PathPlanner.loadPath("Score2NoCableMobility", Constants.AutoConstants.constraints));
-    }
-    public Command score2NoCableBalance(){
-        return autonBuilder2.fullAuto(PathPlanner.loadPath("Score2NoCableBalance", Constants.AutoConstants.constraints));
-    }
-    public Command score1Grab1NoCableBalance(){
-        return autonBuilder.fullAuto(PathPlanner.loadPath("Score1Grab1Balance", Constants.AutoConstants.constraints));
-    }
-    public Command back(){
-        return autonBuilder.fullAuto(PathPlanner.loadPath("TestTranslationalPath", Constants.AutoConstants.constraints));
-    }
-    */
+    
 }
