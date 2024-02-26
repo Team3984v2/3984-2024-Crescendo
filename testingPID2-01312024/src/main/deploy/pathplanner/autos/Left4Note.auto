@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3949707899415804,
-      "y": 5.55593454044051
+      "x": 0.6766573533147072,
+      "y": 6.743350629558403
     },
-    "rotation": 0
+    "rotation": 60.228499494800566
   },
   "command": {
     "type": "sequential",
@@ -14,42 +14,42 @@
         {
           "type": "path",
           "data": {
-            "pathName": "midPath1"
+            "pathName": "leftPath1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "midPath2"
+            "pathName": "leftPath2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "midPath3"
+            "pathName": "leftPath3Alt"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "midPath4"
+            "pathName": "leftPath4Alt"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "midPath5"
+            "pathName": "leftPath5Alt"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "midPath6"
+            "pathName": "leftPath6Alt"
           }
         }
       ]
     }
   },
-  "folder": "MidAutos",
+  "folder": "LeftAutos",
   "choreoAuto": false
 }

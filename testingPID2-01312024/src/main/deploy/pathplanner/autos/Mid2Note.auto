@@ -22,18 +22,6 @@
           "data": {
             "pathName": "midPath2"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "midPath3Alt"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "midPath4Alt"
-          }
         }
       ]
     }

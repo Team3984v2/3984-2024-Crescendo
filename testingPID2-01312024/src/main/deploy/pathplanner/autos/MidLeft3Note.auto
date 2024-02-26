@@ -26,13 +26,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "midPath3Alt"
+            "pathName": "midPath3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "midPath4Alt"
+            "pathName": "midPath4"
           }
         }
       ]

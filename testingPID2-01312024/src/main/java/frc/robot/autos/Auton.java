@@ -1,11 +1,9 @@
 package frc.robot.autos;
 
-import java.sql.Driver;
 import java.util.HashMap;
 //import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.auto.AutoBuilder;
