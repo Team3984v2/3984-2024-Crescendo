@@ -149,21 +149,21 @@ public final class Constants {
             public static final double tolerance = 1.0; //Meters per second
             public static final class FWtop {//TODO PID
                 public static final int FWid = 18;
-                public static final double kP = 0.69;
-                public static final double kI = 0.69;
-                public static final double kD = 0.69;
-                public static final double gearRatio = 1.0; //TODO
+                public static final double kP = 0.1;
+                public static final double kI = 0;
+                public static final double kD = 0;
+                public static final double gearRatio = 1; 
             }
             public static final class FWbott { //TODO PID
                 public static final int FWid = 19;
-                public static final double kP = 0.69;
-                public static final double kI = 0.69;
-                public static final double kD = 0.69;
-                public static final double gearRatio = 1.0; //TODO
+                public static final double kP = 0.1;
+                public static final double kI = 0;
+                public static final double kD = 0;
+                public static final double gearRatio = 1; 
             }
             // AMP and SPEAKER velocity presets
-            public static final double AMP = 0.69;
-            public static final double SPEAKER = 0.69;
+            public static final double AMP = 10;
+            public static final double SPEAKER = 30;
 
         }
         public static final class climber{
@@ -173,16 +173,16 @@ public final class Constants {
             public static final double kP = 0.5;
             public static final double kI = 0.5;
             public static final double kD = 0.5;
-            public static final double gearRatio = 100;
+            public static final double gearRatio = 25;
 
         }
         public static final class intake{
-            public static final double tolerance = 1.0;
+            public static final double tolerance = 0.1;
             public static final class intakeArm{
                 public static final int rotMotorID = 12; //TODO
-                public static final double kP = 0.5;
-                public static final double kI = 0.5;
-                public static final double kD = 0.5;
+                public static final double kP = 0.01;
+                public static final double kI = 0;
+                public static final double kD = 0.0001;
                 public static final double gearRatio = 100;
 
             }
@@ -191,7 +191,8 @@ public final class Constants {
                 public static final int IDL = 1;
 
             }
-            public static final Rotation2d INTAKE = Rotation2d.fromDegrees(120);
+            public static final Rotation2d INTAKE = Rotation2d.fromDegrees(-212);
+            public static final Rotation2d AMPSHOT = Rotation2d.fromDegrees(-94);
             public static final Rotation2d IDLE = Rotation2d.fromDegrees(0);
             
 

@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -8,10 +11,12 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.Swerve.flywheel;
 
 public class Flywheel extends SubsystemBase{
     private CANSparkMax top;
@@ -28,6 +33,8 @@ public class Flywheel extends SubsystemBase{
         bott.restoreFactoryDefaults();
         top.setIdleMode(IdleMode.kCoast);
         bott.setIdleMode(IdleMode.kCoast);
+        bott.setInverted(true);
+        top.setInverted(false);
         topEncoder = top.getEncoder(
             SparkRelativeEncoder.Type.kHallSensor, 
             42
@@ -83,16 +90,47 @@ public class Flywheel extends SubsystemBase{
         );
     }
     private boolean atSetpoint = false;
+
+    public Command moveTo(BooleanSupplier amp, BooleanSupplier speaker, DoubleSupplier trigger){
+        final double[] v = new double[]{(amp.getAsBoolean())? flywheel.AMP: flywheel.SPEAKER, (amp.getAsBoolean())? flywheel.AMP: flywheel.SPEAKER};
+        SmartDashboard.putNumber("trigger value", trigger.getAsDouble());
+        System.out.println(trigger.getAsDouble());
+        if (trigger.getAsDouble() > 0.2){
+            System.out.println("running flywheel");
+            return runOnce(()->{
+                SmartDashboard.putNumber("Velocity Goal", v[0]);
+                //System.out.println(v[0]);
+                }).andThen(run(
+                    () -> GoTo(
+                        v[0], v[1]
+                    )
+                ).until(
+                    ()->(
+                        Math.abs(getErrors(v)[0]) < Constants.Swerve.flywheel.tolerance 
+                        && Math.abs(getErrors(v)[1]) < Constants.Swerve.flywheel.tolerance
+                    )).andThen(runOnce(()->{
+                        atSetpoint = true;
+                    }))
+            );
+        }
+        else{
+            return runOnce(()->{});
+        }
+        
+    }
+    
     public Command moveTo(double vtop, double vbott, boolean idleState){
         double[] v  =new double[]{vtop, vbott};
         //Rotation2d[] a = new Rotation2d[]{Rotation2d.fromDegrees(Sangle)/*(49.26)/*getAngles(x, y)[0]*/, Rotation2d.fromDegrees(Jangle)};/*(61.97)};// getAngles(x, y)[1]};*/
+        
         return runOnce(()->{
             SmartDashboard.putNumber("Shoulder Goal", v[0]);
             SmartDashboard.putNumber("Joint Goal", v[1]);
         }).andThen(run(
-            () -> GoTo(
-                v[0], v[1]
-            )
+            () -> {GoTo(v[0], v[1]);
+            System.out.println("running flywheel");
+            }
+
         ).until(
             ()->(
                 Math.abs(getErrors(v)[0]) < Constants.Swerve.flywheel.tolerance 

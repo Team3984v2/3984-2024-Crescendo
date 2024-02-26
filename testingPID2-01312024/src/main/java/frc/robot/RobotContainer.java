@@ -67,12 +67,14 @@ public class RobotContainer {
         () -> -driver.getRawAxis(rotationAxis),
         ()->false,//() -> robotCentric.getAsBoolean(),
         () -> slow.getAsBoolean()));
-    intake.setDefaultCommand(
-      intake.moveTo(Constants.Swerve.intake.IDLE, false)
-    );
-    fwheel.setDefaultCommand(
-      fwheel.moveTo(flywheel.AMP/2, flywheel.AMP/2, true)
-    );
+    //intake.setDefaultCommand(
+      //intake.moveTo(Constants.Swerve.intake.IDLE, false)
+    //);
+    /*fwheel.setDefaultCommand(
+      fwheel.moveTo(
+        ()->amp.getAsBoolean(), 
+        ()->speaker.getAsBoolean(), 
+        ()-> driver.getRawAxis(triggerLAxis)));*/
     // Configure the button bindings
     configureButtonBindings();
     
@@ -87,19 +89,18 @@ public class RobotContainer {
    */
   private boolean speaekerToggle = false;
   private void configureButtonBindings() {
-    aim.whileTrue(aimCommand);
+    //aim.whileTrue(aimCommand);
     //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    //speaker.whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER, false));
+    speaker.whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER, false));
     //amp.whileTrue(fwheel.moveTo(flywheel.AMP, flywheel.AMP, false));
-    speaker.onTrue(new InstantCommand(()->{speaekerToggle = true;}));
-    amp.onTrue(new InstantCommand(()->{speaekerToggle = false;}));
-    if (driver.getRawAxis(triggerLAxis) > 0.1){
-      if (speaekerToggle){fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER, false);}
-      else{fwheel.moveTo(flywheel.AMP, flywheel.AMP, false);}
-    }
-    if (driver.getRawAxis(triggerRAxis) > 0.3){intake.Out();}
+    //speaker.onTrue(new InstantCommand(()->{speaekerToggle = true;}));
+    //amp.onTrue(new InstantCommand(()->{speaekerToggle = false;}));
+    //if (driver.getRawAxis(triggerRAxis) > 0.3){intake.Out();}
+    //lolintake.whileTrue(intake.Out());
     lolintake.whileTrue(intake.moveTo(Constants.Swerve.intake.INTAKE, true));
+    aim.whileTrue(intake.moveTo(Constants.Swerve.intake.IDLE, false));
+    amp.whileTrue(intake.moveTo(Constants.Swerve.intake.AMPSHOT, false));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

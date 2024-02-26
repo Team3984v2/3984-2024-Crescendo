@@ -62,9 +62,9 @@ public class Intake extends SubsystemBase{
 
         //Initialize arm PID
         intakeArmPID = lolIntakeArm.getPIDController();
-        intakeArmPID.setP(Constants.Swerve.climber.kP);
-        intakeArmPID.setI(Constants.Swerve.climber.kI);
-        intakeArmPID.setD(Constants.Swerve.climber.kD);
+        intakeArmPID.setP(Constants.Swerve.intake.intakeArm.kP);
+        intakeArmPID.setI(Constants.Swerve.intake.intakeArm.kI);
+        intakeArmPID.setD(Constants.Swerve.intake.intakeArm.kD);
 
         lolIntakeArm.burnFlash();
     }
@@ -77,8 +77,9 @@ public class Intake extends SubsystemBase{
     }
     public Command In(){
         return run(()->{
-            intakeMotorL.set(-0.1);
-            intakeMotorR.set(-0.1);
+            intakeMotorL.set(-1);
+            intakeMotorR.set(-1);
+            System.out.println("running intake");
         });
     }
     public Command Stop(){
