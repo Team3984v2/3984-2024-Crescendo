@@ -66,14 +66,15 @@ public class RobotContainer {
       new TeleopSwerve(
         s_Swerve,
         () -> -driver.getLeftY(),//-driver.getRawAxis(translationAxis),
-        () -> -driver.getLeftX(),//-driver.getRawAxis(strafeAxis),
+        () -> driver.getLeftX(),//-driver.getRawAxis(strafeAxis),
         () -> -driver.getRightX(),//-driver.getRawAxis(rotationAxis),
         ()->false,//() -> robotCentric.getAsBoolean(),
         () -> driver.leftBumper().getAsBoolean()));//slow.getAsBoolean()));
 
-    //intake.setDefaultCommand(
+    intake.setDefaultCommand(
+      intake.Stop()
       //intake.moveTo(Constants.Swerve.intake.IDLE, false)
-    //);
+    );
     /*fwheel.setDefaultCommand(
       fwheel.moveTo(
         ()->amp.getAsBoolean(), 
@@ -95,7 +96,8 @@ public class RobotContainer {
     //aim.whileTrue(aimCommand);
     driver.y().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
     driver.leftTrigger(0.3).whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER, false));
-    driver.rightTrigger(0.3).whileTrue(intake.Out());
+    driver.rightTrigger(0.3).whileTrue(intake.In());
+    driver.x().whileTrue(intake.Out());
     driver.rightBumper().whileTrue(intake.moveTo(Constants.Swerve.intake.INTAKE, true));
     driver.a().whileTrue(intake.moveTo(Constants.Swerve.intake.IDLE, false));
     driver.b().whileTrue(intake.moveTo(Constants.Swerve.intake.AMPSHOT, false));

@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.networktables.DoubleSubscriber;
+import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -91,7 +92,7 @@ public class Flywheel extends SubsystemBase{
     }
     private boolean atSetpoint = false;
 
-    public Command moveTo(BooleanSupplier amp, BooleanSupplier speaker, DoubleSupplier trigger){
+    /*public Command moveTo(BooleanSupplier amp, BooleanSupplier speaker, DoubleSupplier trigger){
         final double[] v = new double[]{(amp.getAsBoolean())? flywheel.AMP: flywheel.SPEAKER, (amp.getAsBoolean())? flywheel.AMP: flywheel.SPEAKER};
         SmartDashboard.putNumber("trigger value", trigger.getAsDouble());
         System.out.println(trigger.getAsDouble());
@@ -117,7 +118,7 @@ public class Flywheel extends SubsystemBase{
             return runOnce(()->{});
         }
         
-    }
+    }*/
     
     public Command moveTo(double vtop, double vbott, boolean idleState){
         double[] v  =new double[]{vtop, vbott};
@@ -128,7 +129,8 @@ public class Flywheel extends SubsystemBase{
             SmartDashboard.putNumber("Joint Goal", v[1]);
         }).andThen(run(
             () -> {GoTo(v[0], v[1]);
-            System.out.println("running flywheel");
+            double[] getVelocity = this.getVelocity();
+            System.out.println(getVelocity);
             }
 
         ).until(
@@ -146,6 +148,7 @@ public class Flywheel extends SubsystemBase{
     }
     public void periodic(){
         SmartDashboard.putBoolean("Ready To Shoot?", atSetpoint);
+        SmartDashboard.putNumber("lywhell Vellovity", getVelocity()[0]);
     }
 
 }

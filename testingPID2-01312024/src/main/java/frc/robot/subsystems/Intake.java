@@ -71,14 +71,14 @@ public class Intake extends SubsystemBase{
     
     public Command Out(){
          return run(()->{
-            intakeMotorL.set(-0.5);
-            intakeMotorR.set(0.5);
+            intakeMotorL.set(-1); 
+            intakeMotorR.set(1);
          });
     }
     public Command In(){
         return run(()->{
-            intakeMotorL.set(-1);
-            intakeMotorR.set(1);
+            intakeMotorL.set(1);
+            intakeMotorR.set(-1);
             System.out.println("running intake");
         });
     }
