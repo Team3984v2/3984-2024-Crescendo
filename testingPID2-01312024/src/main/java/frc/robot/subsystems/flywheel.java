@@ -31,6 +31,7 @@ public class Flywheel extends SubsystemBase{
         top = new CANSparkMax(frc.robot.Constants.Swerve.flywheel.FWtop.FWid, MotorType.kBrushless );
         bott = new CANSparkMax(frc.robot.Constants.Swerve.flywheel.FWbott.FWid, MotorType.kBrushless );
         top.restoreFactoryDefaults();
+        
         bott.restoreFactoryDefaults();
         top.setIdleMode(IdleMode.kCoast);
         bott.setIdleMode(IdleMode.kCoast);
@@ -65,6 +66,12 @@ public class Flywheel extends SubsystemBase{
         top.burnFlash();
         bott.burnFlash();
     }
+    public Command stop(){
+        return run(()->{
+            top.set(0);
+            bott.set(0);
+        });
+    }
 
     public double[] getVelocity(){
         double topVelocity = topEncoder.getVelocity(); //RPM
@@ -82,13 +89,14 @@ public class Flywheel extends SubsystemBase{
     }
     public void GoTo(double topGoal, double bottGoal){
         FWtopPID.setReference(
-            topGoal, 
+            topGoal+5, 
             ControlType.kVelocity, 0
         );
         FWbottPID.setReference(
-            bottGoal, 
+            bottGoal+5, 
             ControlType.kVelocity, 0
         );
+        
     }
     private boolean atSetpoint = false;
 
@@ -119,6 +127,7 @@ public class Flywheel extends SubsystemBase{
         }
         
     }*/
+    
     
     public Command moveTo(double vtop, double vbott, boolean idleState){
         double[] v  =new double[]{vtop, vbott};

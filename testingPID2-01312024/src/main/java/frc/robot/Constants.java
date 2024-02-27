@@ -148,21 +148,21 @@ public final class Constants {
             public static final double tolerance = 1.0; //Meters per second
             public static final class FWtop {//TODO PID
                 public static final int FWid = 18;
-                public static final double kP = 0.1;
+                public static final double kP = 0.15;
                 public static final double kI = 0;
                 public static final double kD = 0;
                 public static final double gearRatio = 1; 
             }
             public static final class FWbott { //TODO PID
                 public static final int FWid = 19;
-                public static final double kP = 0.1;
+                public static final double kP = 0.2;
                 public static final double kI = 0;
-                public static final double kD = 0;
+                public static final double kD = 0.1;
                 public static final double gearRatio = 1; 
             }
             // AMP and SPEAKER velocity presets
             public static final double AMP = 10;
-            public static final double SPEAKER = 30;
+            public static final double SPEAKER = 25;
 
         }
         public static final class climber{

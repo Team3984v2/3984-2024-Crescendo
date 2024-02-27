@@ -54,6 +54,7 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value);*/
   private final Swerve s_Swerve = new Swerve();
   private final Flywheel fwheel = new Flywheel();
+  
   private final PhotonCamera cam = new PhotonCamera("Global_Shutter_Camera");
   private final aimAtTarget aimCommand = new aimAtTarget(cam, s_Swerve, s_Swerve::getPose);
   private final SendableChooser<Command> autoChooser;
@@ -75,12 +76,7 @@ public class RobotContainer {
       intake.Stop()
       //intake.moveTo(Constants.Swerve.intake.IDLE, false)
     );
-    /*fwheel.setDefaultCommand(
-      fwheel.moveTo(
-        ()->amp.getAsBoolean(), 
-        ()->speaker.getAsBoolean(), 
-        ()-> driver.getRawAxis(triggerLAxis)));*/
-    // Configure the button bindings
+    fwheel.setDefaultCommand(fwheel.moveTo(10, 10, true));    // Configure the button bindings
     configureButtonBindings();
     
   }
