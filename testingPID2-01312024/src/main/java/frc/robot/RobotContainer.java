@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.aimAtTarget;
@@ -31,12 +32,14 @@ import frc.robot.Constants.Swerve.flywheel;
  */
 public class RobotContainer {
   // The robot's subsystems and commands
-  private final Joystick driver = new Joystick(1);
-  private final int translationAxis = XboxController.Axis.kLeftY.value;
-  private final int strafeAxis = XboxController.Axis.kLeftX.value;
-  private final int rotationAxis = XboxController.Axis.kRightX.value;
-  private final int triggerLAxis = XboxController.Axis.kLeftTrigger.value;
-  private final int triggerRAxis = XboxController.Axis.kRightTrigger.value;
+  //private final Joystick driver = new Joystick(1);
+  private final CommandXboxController driver = new CommandXboxController(1);
+  //private final int translationAxis = XboxController.Axis.kLeftY.value;
+  //private final int strafeAxis = XboxController.Axis.kLeftX.value;
+  //private final int rotationAxis = XboxController.Axis.kRightX.value;
+  //private final int triggerLAxis = XboxController.Axis.kLeftTrigger.value;
+  //private final int triggerRAxis = XboxController.Axis.kRightTrigger.value;
+  /*
   private final JoystickButton zeroGyro = 
     new JoystickButton(driver, XboxController.Button.kY.value);
   private final JoystickButton aim = 
@@ -48,7 +51,7 @@ public class RobotContainer {
   private final JoystickButton lolintake =
     new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton slow = 
-    new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    new JoystickButton(driver, XboxController.Button.kLeftBumper.value);*/
   private final Swerve s_Swerve = new Swerve();
   private final Flywheel fwheel = new Flywheel();
   private final PhotonCamera cam = new PhotonCamera("Global_Shutter_Camera");
@@ -62,11 +65,12 @@ public class RobotContainer {
     s_Swerve.setDefaultCommand(
       new TeleopSwerve(
         s_Swerve,
-        () -> -driver.getRawAxis(translationAxis),
-        () -> -driver.getRawAxis(strafeAxis),
-        () -> -driver.getRawAxis(rotationAxis),
+        () -> -driver.getLeftY(),//-driver.getRawAxis(translationAxis),
+        () -> -driver.getLeftX(),//-driver.getRawAxis(strafeAxis),
+        () -> -driver.getRightX(),//-driver.getRawAxis(rotationAxis),
         ()->false,//() -> robotCentric.getAsBoolean(),
-        () -> slow.getAsBoolean()));
+        () -> driver.leftBumper().getAsBoolean()));//slow.getAsBoolean()));
+
     //intake.setDefaultCommand(
       //intake.moveTo(Constants.Swerve.intake.IDLE, false)
     //);
@@ -87,20 +91,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private boolean speaekerToggle = false;
   private void configureButtonBindings() {
     //aim.whileTrue(aimCommand);
-    //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    speaker.whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER, false));
-    //amp.whileTrue(fwheel.moveTo(flywheel.AMP, flywheel.AMP, false));
-    //speaker.onTrue(new InstantCommand(()->{speaekerToggle = true;}));
-    //amp.onTrue(new InstantCommand(()->{speaekerToggle = false;}));
-    //if (driver.getRawAxis(triggerRAxis) > 0.3){intake.Out();}
-    //lolintake.whileTrue(intake.Out());
-    lolintake.whileTrue(intake.moveTo(Constants.Swerve.intake.INTAKE, true));
-    aim.whileTrue(intake.moveTo(Constants.Swerve.intake.IDLE, false));
-    amp.whileTrue(intake.moveTo(Constants.Swerve.intake.AMPSHOT, false));
+    driver.y().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    driver.leftTrigger(0.3).whileTrue(fwheel.moveTo(flywheel.SPEAKER, flywheel.SPEAKER, false));
+    driver.rightTrigger(0.3).whileTrue(intake.Out());
+    driver.rightBumper().whileTrue(intake.moveTo(Constants.Swerve.intake.INTAKE, true));
+    driver.a().whileTrue(intake.moveTo(Constants.Swerve.intake.IDLE, false));
+    driver.b().whileTrue(intake.moveTo(Constants.Swerve.intake.AMPSHOT, false));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
