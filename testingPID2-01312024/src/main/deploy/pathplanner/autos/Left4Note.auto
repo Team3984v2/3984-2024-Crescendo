@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "leftPath1"
@@ -21,6 +27,12 @@
           "type": "path",
           "data": {
             "pathName": "leftPath2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
           }
         },
         {
@@ -36,6 +48,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "leftPath5Alt"
@@ -46,10 +64,16 @@
           "data": {
             "pathName": "leftPath6Alt"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
         }
       ]
     }
   },
-  "folder": "LeftAutos",
+  "folder": null,
   "choreoAuto": false
 }

@@ -12,9 +12,33 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "dropintake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "startintake"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "midPath1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "retractintake"
           }
         },
         {
@@ -22,10 +46,16 @@
           "data": {
             "pathName": "midPath2"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
         }
       ]
     }
   },
-  "folder": "MidAutos",
+  "folder": null,
   "choreoAuto": false
 }

@@ -12,9 +12,33 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "leftPath1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "dropintake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "startintake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stopintake"
           }
         },
         {
@@ -24,9 +48,46 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "leftPath3Alt"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "dropintake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "startintake"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "stopintake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "retractintake"
+                }
+              }
+            ]
           }
         },
         {
@@ -34,10 +95,16 @@
           "data": {
             "pathName": "leftPath4Alt"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
         }
       ]
     }
   },
-  "folder": "LeftAutos",
+  "folder": null,
   "choreoAuto": false
 }
